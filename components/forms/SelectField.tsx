@@ -1,19 +1,16 @@
 "use client"
-import React from 'react'
-import { Label } from '../ui/label'
 import { Controller } from 'react-hook-form'
+import { Label } from '../ui/label'
 
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
-    SelectValue,
+    SelectValue
 } from "@/components/ui/select"
 
-const SelectField = ({ name, label, placeholder, required, control, register, options, error, validation }: SelectFieldProps) => {
+const SelectField = ({ name, label, placeholder, required, control, options, error }: SelectFieldProps) => {
     return (
         <div className='space-y-2 '>
             <Label htmlFor={name} className='form-label'> {label}</Label>
