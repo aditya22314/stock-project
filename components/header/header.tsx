@@ -1,23 +1,26 @@
-import Image from "next/image"
-import Link from "next/link"
-import NavItems from "../navItems"
-import UserDropdown from "../UserDropdown"
+import Link from "next/link";
+import Image from "next/image";
 
-const Header = ({ user }: { user: { id: string, name: string, email: string } }) => {
+import UserDropdown from "@/components/UserDropdown";
+import { searchStocks } from "@/lib/actions/finnhub.actions";
+import NavItems from "../navItems";
+
+const Header = async ({ user }: { user: User }) => {
+    const initialStocks = await searchStocks();
+
     return (
-        //  Keeps the element sticky and top-0 ensures it stays at the top of the viewport
         <header className="sticky top-0 header">
             <div className="container header-wrapper">
                 <Link href="/">
-                    <Image src="/assets/icons/logo.svg" alt="Logo" width={140} height={90} className=" cursor-pointer" />
+                    <Image src="/assets/icons/logo.svg" alt="Signalist logo" width={140} height={32} className="h-8 w-auto cursor-pointer" />
                 </Link>
                 <nav className="hidden sm:block">
-                    <NavItems />
+                    <NavItems initialStocks={initialStocks} />
                 </nav>
-                <UserDropdown user={user}/>
+
+                <UserDropdown user={user} initialStocks={initialStocks} />
             </div>
         </header>
     )
 }
-
 export default Header
