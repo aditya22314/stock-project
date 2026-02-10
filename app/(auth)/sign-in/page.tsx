@@ -1,11 +1,14 @@
 'use client';
 
+import { toast } from 'sonner';
+
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/forms/InputField';
 import FooterLink from '@/components/forms/FooterLink';
 
 import { useRouter } from "next/navigation";
+import { signInWithEmail } from '@/lib/actions/auth.actions';
 
 const SignIn = () => {
     const router = useRouter()
@@ -22,8 +25,18 @@ const SignIn = () => {
     });
 
     const onSubmit = async (data: SignInFormData) => {
-        // TODO: Implement signInWithEmail
-        console.log(data);
+        try {
+            const result = await signInWithEmail(data);
+            if (result.success) {
+                toast.success(result.message);
+                router.push('/');
+            }
+
+        }
+        catch (e) {
+            console.error(e)
+            toast.error("Failed to create a account")
+        }
     }
 
     return (
