@@ -3,7 +3,7 @@ import Link from "next/link"
 import NavItems from "../navItems"
 import UserDropdown from "../UserDropdown"
 
-const Header = () => {
+const Header = ({ user }: { user: { id: string, name: string, email: string } }) => {
     return (
         //  Keeps the element sticky and top-0 ensures it stays at the top of the viewport
         <header className="sticky top-0 header">
@@ -14,7 +14,7 @@ const Header = () => {
                 <nav className="hidden sm:block">
                     <NavItems />
                 </nav>
-                <UserDropdown />
+                <UserDropdown user={user}/>
             </div>
         </header>
     )

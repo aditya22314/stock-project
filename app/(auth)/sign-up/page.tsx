@@ -5,12 +5,19 @@ import FooterLink from '@/components/forms/FooterLink'
 import InputField from '@/components/forms/InputField'
 import SelectField from '@/components/forms/SelectField'
 import { Button } from '@/components/ui/button'
+import { signUpWithEmail } from '@/lib/actions/auth.actions'
 import { INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS } from '@/lib/constants'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+
+
+
 
 
 
 const SignUp = () => {
+    const router = useRouter();
 
     const {
         register,
@@ -30,12 +37,18 @@ const SignUp = () => {
         },
         mode: 'onBlur'
     })
-    const onSubmit = (data: SignUpFormData) => {
+    const onSubmit = async (data: SignUpFormData) => {
         try {
+            const result = await signUpWithEmail(data);
+            if (result.success) {
+                toast.success(result.message);
+                router.push('/');
+            }
 
         }
         catch (e) {
             console.error(e)
+            toast.error("Failed to create a account")
         }
     }
 
@@ -53,7 +66,7 @@ const SignUp = () => {
                     error={errors.fullName}
                     validation={{ required: "Full name is required", minLength: 2 }}
                 />
-                <InputField name="Email"
+                <InputField name="email"
                     label="Email"
                     placeholder="Enter your email"
                     type="email"
@@ -61,7 +74,7 @@ const SignUp = () => {
                     error={errors.email}
                     validation={{ required: "Email is required", pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email format" } }}
                 />
-                <InputField name="Password"
+                <InputField name="password"
                     label="Password"
                     placeholder="Enter your password"
                     type="password"
