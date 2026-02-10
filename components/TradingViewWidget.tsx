@@ -6,7 +6,7 @@ import { memo, useRef } from 'react';
 
 // Interface is a way to define a shape of an object .
 interface TradingViewWidgetProps {
-    title: string;
+    title?: string;
     scriptUrl: string;
     config: Record<string, unknown>;
     height?: number;
